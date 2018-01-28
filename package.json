@@ -1,0 +1,27 @@
+{
+  "name": "groupme-discord-bridge",
+  "version": "1.0.0",
+  "description": "A bridge bot which connects a GroupMe chat and a Discord Guild",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jython234/groupme-discord-bridge.git"
+  },
+  "author": "jython234",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/jython234/groupme-discord-bridge/issues"
+  },
+  "homepage": "https://github.com/jython234/groupme-discord-bridge#readme",
+  "dependencies": {
+    "discord.js": "^11.3.0",
+    "express": "^4.16.2",
+    "node-opus": "^0.2.7",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "yamljs": "^0.3.0"
+  }
+}
