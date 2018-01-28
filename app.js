@@ -4,6 +4,7 @@ const YAML = require("yamljs");
 const request = require("request-promise");
 const express = require("express");
 const bodyParser = require("body-parser");
+const uuidv1 = require("uuid/v1");
 
 const os = require("os");
 const fs = require("fs");
@@ -13,6 +14,7 @@ const process = require("process");
 // Config and functions -----------------------------------------------------------------------------------------------------------------
 const defaultConfig = {
     listenPort: 8088,
+    callbackURLPrefix: "",
     discord: {
         username: "my-bot",
         token: "",
@@ -126,11 +128,23 @@ discordClient.on("message", (message) => {
     }
 });
 
-expressApp.post('/callback', (req, res) => {
+expressApp.post(config.callbackURLPrefix + '/callback', (req, res) => {
     var text = req.body.text;
     var sender = req.body.name;
+    var attachments = req.body.attachments;
 
-    discordChannel.send("**" + sender + "**: " + text);
+    if (attachments.length > 0) {
+        if(attachments[0].type == "image") {
+            let filename = uuidv1() + path.extname(attachments[0].url);
+            download(attachments[0].url, uuidv1(), (mimetype, downloadedLocation) => {
+                discordChannel.send("**" + sender + "**: " + text).then(() => {
+                    discordChannel.send("**" + sender + "** ***Sent an image:***", new Discord.Attachment(downloadedLocation, filename)).then(() => fs.unlink(downloadedLocation));
+                });
+            });
+        }
+    } else {
+        discordChannel.send("**" + sender + "**: " + text);
+    }
 });
 
 discordClient.login(config.discord.token);

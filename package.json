@@ -23,6 +23,7 @@
     "node-opus": "^0.2.7",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
+    "uuid": "^3.2.1",
     "yamljs": "^0.3.0"
   }
 }
