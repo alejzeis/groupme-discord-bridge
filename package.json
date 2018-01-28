@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jython234/groupme-discord-bridge#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "discord.js": "^11.3.0",
     "express": "^4.16.2",
     "node-opus": "^0.2.7",

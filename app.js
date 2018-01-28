@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const YAML = require("yamljs");
 const request = require("request-promise");
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const os = require("os");
 const fs = require("fs");
@@ -77,6 +78,7 @@ try {
 
 const discordClient = new Discord.Client();
 const expressApp = express();
+expressApp.use(bodyParser.json());
 var discordGuild;
 var discordChannel;
 
@@ -124,5 +126,12 @@ discordClient.on("message", (message) => {
     }
 });
 
+expressApp.post('/callback', (req, res) => {
+    var text = req.body.text;
+    var sender = req.body.name;
+
+    discordChannel.send("**" + sender + "**: " + text);
+});
+
 discordClient.login(config.discord.token);
-expressApp.listen(config.listenPort, () => console.log('Express now listening for requests'))
+expressApp.listen(config.listenPort, () => console.log('Express now listening for requests'));
