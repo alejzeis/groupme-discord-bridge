@@ -129,13 +129,16 @@ discordClient.on("message", (message) => {
 });
 
 expressApp.post(config.callbackURLPrefix + '/callback', (req, res) => {
+    if(req.body.name == config.groupme.name) return;
+
     var text = req.body.text;
     var sender = req.body.name;
     var attachments = req.body.attachments;
 
     if (attachments.length > 0) {
         if(attachments[0].type == "image") {
-            let filename = uuidv1() + path.extname(attachments[0].url);
+            let array = attachments[0].url.split(".");
+            let filename = uuidv1() + array[array.length - 2];
             download(attachments[0].url, uuidv1(), (mimetype, downloadedLocation) => {
                 discordChannel.send("**" + sender + "**: " + text).then(() => {
                     discordChannel.send("**" + sender + "** ***Sent an image:***", new Discord.Attachment(downloadedLocation, filename)).then(() => fs.unlink(downloadedLocation));
