@@ -90,20 +90,35 @@ discordClient.on("ready", () => {
     discordChannel = discordGuild.channels.get(config.discord.channel);
 });
 
+discordClient.on("presenceUpdate", (oldMember, newMember) => {
+    let author = oldMember.nickname == null ? oldMember.user.username : oldMember.nickname;
+
+    if(oldMember.presence.game == null && newMember.presence.game != null) {
+        if(newMember.presence.game.streaming) {
+            sendGroupMeMessage(author + " is now streaming at " + newMember.presence.game.url, null, () => {});
+        }
+    }
+
+    if(oldMember.presence.game != null && newMember.presence.game != null) {
+        if(oldMember.presence.game.streaming && !newMember.presence.game.streaming) {
+            sendGroupMeMessage(author + " has stopped streaming", null, () => {});
+        } else if(!oldMember.presence.game.streaming && newMember.presence.game.streaming){
+            sendGroupMeMessage(author + " is now streaming at " + newMember.presence.game.url, null, () => {});
+        }
+    }
+});
+
 discordClient.on("message", (message) => {
     if(message.author.username === config.discord.username) return;
     if(message.channel.id !== config.discord.channel) return;
     if((message.content == null || message.content == "") && message.attachments.size == 0) return;
 
     let author = message.member.nickname == null ? message.author.username : message.member.nickname;
-    console.log(author + ": " + message.cleanContent);
 
     if(message.attachments.size > 0) {
-        console.log("message with attachment");
         // First download the image
         let attachment = message.attachments.values().next().value;
         download(attachment.url, attachment.filename, (mimetype, downloadedLocation) => {
-            console.log("downloaded");
             let options = {
                 method: 'POST',
                 url: "https://image.groupme.com/pictures",
@@ -121,7 +136,6 @@ discordClient.on("message", (message) => {
             }).catch((err) => {
                 console.error(err);
             });
-            console.log("done");
         });
     } else {
         sendGroupMeMessage(author + ": " + message.cleanContent, null, () => {});
