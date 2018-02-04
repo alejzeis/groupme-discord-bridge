@@ -149,16 +149,35 @@ expressApp.post(config.callbackURLPrefix + '/callback', (req, res) => {
     var sender = req.body.name;
     var attachments = req.body.attachments;
 
-    if (attachments.length > 0) {
-        if(attachments[0].type == "image") {
-            let array = attachments[0].url.split(".");
-            let filename = uuidv1() + "." + array[array.length - 2];
-            download(attachments[0].url, uuidv1(), (mimetype, downloadedLocation) => {
-                discordChannel.send("**" + sender + "**: " + text).then(() => {
-                    discordChannel.send("**" + sender + "** ***Sent an image:***", new Discord.Attachment(downloadedLocation, filename)).then(() => fs.unlink(downloadedLocation));
-                });
-            });
-        }
+	if (attachments.length > 0) {
+		let image = false;
+		switch (attachments[0].type) {
+			case "image":
+				image = true;
+			case "video":
+				let array = attachments[0].url.split(".");
+				let filename = uuidv1() + "." + array[array.length - 2];
+				download(attachments[0].url, uuidv1(), (mimetype, downloadedLocation) => {
+					fs.stat(downloadedLocation, (err, stats) => {
+						if (err) {
+							console.error(err);
+							return;
+						}
+
+						// Discord does not allow files greater than 8MB unless user has Nitro
+						if (stats.size > (1024 * 1024 * 8)) {
+							discordChannel.send("**" + sender + "** ***Sent " + image ? "an image" : "a video" + ":*** " + attachments[0].url).then(() => fs.unlink(downloadedLocation));
+						} else {
+							discordChannel.send("**" + sender + "**: " + text).then(() => {
+								discordChannel.send("**" + sender + "** ***Sent " + image ? "an image" : "a video" + ":***", new Discord.Attachment(downloadedLocation, filename)).then(() => fs.unlink(downloadedLocation));
+							});
+						}
+					});
+				});
+				break;
+			default:
+				console.log("Unknown attachment: " + attachments[0].type);
+		}
     } else {
         discordChannel.send("**" + sender + "**: " + text);
     }
