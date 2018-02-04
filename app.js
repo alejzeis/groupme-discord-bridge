@@ -166,10 +166,10 @@ expressApp.post(config.callbackURLPrefix + '/callback', (req, res) => {
 
 						// Discord does not allow files greater than 8MB unless user has Nitro
 						if (stats.size > (1024 * 1024 * 8)) {
-							discordChannel.send("**" + sender + "** ***Sent " + image ? "an image" : "a video" + ":*** " + attachments[0].url).then(() => fs.unlink(downloadedLocation));
+							discordChannel.send("**" + sender + "** ***Sent " + (image ? "an image" : "a video") + ":*** " + attachments[0].url).then(() => fs.unlink(downloadedLocation));
 						} else {
 							discordChannel.send("**" + sender + "**: " + text).then(() => {
-								discordChannel.send("**" + sender + "** ***Sent " + image ? "an image" : "a video" + ":***", new Discord.Attachment(downloadedLocation, filename)).then(() => fs.unlink(downloadedLocation));
+								discordChannel.send("**" + sender + "** ***Sent " + (image ? "an image" : "a video") + ":***", new Discord.Attachment(downloadedLocation, filename)).then(() => fs.unlink(downloadedLocation));
 							});
 						}
 					});
