@@ -14,7 +14,7 @@ const process = require("process");
 // Config and functions -----------------------------------------------------------------------------------------------------------------
 const defaultConfig = {
     listenPort: 8088,
-    callbackURLPrefix: "",
+    callbackURL: "/callback",
     discord: {
         username: "my-bot",
         token: "",
@@ -22,6 +22,7 @@ const defaultConfig = {
         channel: "0"
     },
     groupme: {
+        name: "",
         botId: "",
         accessToken: ""
     }
@@ -142,7 +143,7 @@ discordClient.on("message", (message) => {
     }
 });
 
-expressApp.post(config.callbackURLPrefix + '/callback', (req, res) => {
+expressApp.post(config.callbackURL, (req, res) => {
     if(req.body.name == config.groupme.name) return;
 
     var text = req.body.text;
