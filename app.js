@@ -18,8 +18,8 @@ const defaultConfig = {
     discord: {
         username: "my-bot",
         token: "",
-        guild: 0,
-        channel: 0
+        guild: "0",
+        channel: "0"
     },
     groupme: {
         botId: "",

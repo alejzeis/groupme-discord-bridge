@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/jython234/groupme-discord-bridge#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "discord.js": "^11.3.0",
-    "express": "^4.16.2",
-    "node-opus": "^0.2.7",
-    "request": "^2.83.0",
+    "body-parser": "^1.18.3",
+    "discord.js": "^11.3.2",
+    "express": "^4.16.3",
+    "node-opus": "^0.3.0",
+    "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "uuid": "^3.2.1",
+    "uuid": "^3.3.2",
     "yamljs": "^0.3.0"
   }
 }
