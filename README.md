@@ -23,6 +23,7 @@ discord:
     guild: '0'
     channel: '0'
 groupme:
+    name: ""
     botId: ""
     accessToken: ""
 
@@ -40,6 +41,7 @@ discord:
     guild: '0'
     channel: '0'
 groupme:
+    name: ""
     botId: ""
     accessToken: ""
 
@@ -55,6 +57,7 @@ discord:
     guild: 'THE GUILD ID YOU COPIED'
     channel: 'THE CHANNEL ID YOU COPIED'
 groupme:
+    name: ""
     botId: ""
     accessToken: ""
 
@@ -66,7 +69,9 @@ For example, if I am running the bridge on my server, myserver.com, and I set "l
 
 The callback URL is very important, as if it is not correct then the bridge will not recieve messages from GroupMe and nothing will show up in Discord. This is probably the number 1 cause of the bridge not working.
 
-Once you've created the GroupMe bot, copy it's "bot ID" and paste it in ```bridgeBot.yml``` in the "botId" field. You'll also need to copy your GroupMe access token, which can be found by clicking on "Access Token" in the top right of the GroupMe developers site.
+Once you've created the GroupMe bot, copy it's "bot ID" and paste it in ```bridgeBot.yml``` in the "botId" field. You'll also need to copy your GroupMe access token, which can be found by clicking on "Access Token" in the top right of the GroupMe developers site. 
+
+Also enter the bot's name under the "name" field in the config file. The Bot's name should match the name you gave it on the GroupMe site, case sensitive and must match perfectly, as if it doesn't the bridge will echo and relay the GroupMe bot's messages on Discord!
 ```
 listenPort: 8088
 callbackURL: "/callback"
@@ -76,6 +81,7 @@ discord:
     guild: 'THE GUILD ID YOU COPIED'
     channel: 'THE CHANNEL ID YOU COPIED'
 groupme:
+    name: "YOUR GROUPME BOT's NAME"
     botId: "THE GROUPME BOT's ID"
     accessToken: "YOUR GROUPME ACCESS TOKEN"
 ```
