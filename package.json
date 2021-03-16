@@ -20,7 +20,6 @@
     "body-parser": "^1.18.3",
     "discord.js": "^11.3.2",
     "express": "^4.16.3",
-    "node-opus": "^0.3.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "uuid": "^3.3.2",
